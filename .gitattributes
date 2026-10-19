@@ -1,0 +1,9 @@
+# Завжди LF, навіть якщо хтось склонує репозиторій у Windows.
+# Інакше bash-скрипти ламаються з помилкою "$'\r': command not found".
+* text=auto eol=lf
+*.sh   text eol=lf
+*.bash text eol=lf
+*.png  binary
+*.jpg  binary
+*.pt   binary
+*.dae  -text

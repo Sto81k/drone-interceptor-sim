@@ -1,0 +1,114 @@
+diff --git a/models/iris_with_ardupilot/model.sdf b/models/iris_with_ardupilot/model.sdf
+index fb0a6af..db044c6 100755
+--- a/models/iris_with_ardupilot/model.sdf
++++ b/models/iris_with_ardupilot/model.sdf
+@@ -381,7 +381,7 @@
+     -->
+ 
+     <!-- plugins -->
+-    <plugin name="rotor_0_blade_1" filename="libLiftDragPlugin.so">
++     <plugin name="rotor_0_blade_1" filename="libLiftDragPlugin.so">
+       <a0>0.3</a0>
+       <alpha_stall>1.4</alpha_stall>
+       <cla>4.2500</cla>
+@@ -542,7 +542,7 @@
+         <cmd_max>2.5</cmd_max>
+         <cmd_min>-2.5</cmd_min>
+         <jointName>iris::rotor_0_joint</jointName>
+-        <multiplier>838</multiplier>
++        <multiplier>2500</multiplier>
+         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+       </control>
+       <control channel="1">
+@@ -556,7 +556,7 @@
+         <cmd_max>2.5</cmd_max>
+         <cmd_min>-2.5</cmd_min>
+         <jointName>iris::rotor_1_joint</jointName>
+-        <multiplier>838</multiplier>
++        <multiplier>2500</multiplier>
+         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+       </control>
+       <control channel="2">
+@@ -570,7 +570,7 @@
+         <cmd_max>2.5</cmd_max>
+         <cmd_min>-2.5</cmd_min>
+         <jointName>iris::rotor_2_joint</jointName>
+-        <multiplier>-838</multiplier>
++        <multiplier>-2500</multiplier>
+         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+       </control>
+       <control channel="3">
+@@ -584,10 +584,59 @@
+         <cmd_max>2.5</cmd_max>
+         <cmd_min>-2.5</cmd_min>
+         <jointName>iris::rotor_3_joint</jointName>
+-        <multiplier>-838</multiplier>
++        <multiplier>-2500</multiplier>
+         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+       </control>
+     </plugin>
++    
++   <!-- Надлегка камера комп'ютерного зору -->
++    <link name="camera_link">
++      <inertial>
++        <mass>0.01</mass>
++        <inertia>
++          <ixx>0.0001</ixx>
++          <iyy>0.0001</iyy>
++          <izz>0.0001</izz>
++        </inertia>
++      </inertial>
++      <pose>0.35 0 -0.06 0 0.15 0</pose>
++      <sensor name="front_camera" type="camera">
++        <always_on>1</always_on>
++        <update_rate>15</update_rate>
++        <camera name="front">
++          <horizontal_fov>1.4</horizontal_fov>
++          <image>
++            <width>640</width>
++            <height>480</height>
++          </image>
++          <clip>
++            <near>0.1</near>
++            <far>100</far>
++          </clip>
++        </camera>
++        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
++          <ros>
++            <remapping>~/image_raw:=/camera/image_raw</remapping>
++            <remapping>~/camera_info:=/camera/camera_info</remapping>
++          </ros>
++          <camera_name>front</camera_name>
++          <frame_name>camera_link</frame_name>
++        </plugin>
++      </sensor>
++    </link>
+ 
++    <!-- Жорстке з'єднання з корпусом дрона -->
++    <joint name="camera_joint" type="fixed">
++      <parent>iris::base_link</parent>
++      <child>camera_link</child>
++      <axis>
++        <xyz>0 1 0</xyz>
++        <limit>
++          <lower>-1.57</lower>
++          <upper>1.57</upper>
++        </limit>
++      </axis>
++    </joint>   
++  
+   </model>
+ </sdf>
+diff --git a/models/iris_with_standoffs/model.sdf b/models/iris_with_standoffs/model.sdf
+index d192c05..0719aef 100755
+--- a/models/iris_with_standoffs/model.sdf
++++ b/models/iris_with_standoffs/model.sdf
+@@ -9,7 +9,7 @@
+       </velocity_decay>
+       <inertial>
+         <pose>0 0 0 0 0 0</pose>
+-        <mass>1.5</mass>
++        <mass>0.6</mass>
+         <inertia>
+           <ixx>0.008</ixx>
+           <ixy>0</ixy>

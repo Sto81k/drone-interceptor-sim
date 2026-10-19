@@ -1,0 +1,8 @@
+# Python-залежності (версії зняті з ноутбука автора).
+# numpy має бути < 2, інакше cv_bridge з ROS 2 Humble падає.
+numpy==1.26.4
+opencv-python==4.8.1.78
+ultralytics==8.4.153
+# torch / torchvision ставить install.sh окремо:
+#   є NVIDIA GPU  -> звичайні CUDA-колеса
+#   немає GPU     -> легкі CPU-колеса (економить ~3 ГБ)
