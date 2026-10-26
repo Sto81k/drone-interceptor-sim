@@ -7,7 +7,9 @@
   "runArgs": [
     "--ipc=host",
     "-e", "DISPLAY=${env:DISPLAY}",
-    "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
+    "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+    "--device=/dev/dri",
+    "-e", "LIBGL_ALWAYS_SOFTWARE=0"
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "workspaceFolder": "/workspace",
