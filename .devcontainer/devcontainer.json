@@ -1,0 +1,38 @@
+{
+  "name": "Drone Interceptor Sim",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "runArgs": [
+    "--ipc=host",
+    "-e", "DISPLAY=${env:DISPLAY}",
+    "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+    "-v", "/mnt/wslg:/mnt/wslg",
+    "--device=/dev/dxg",
+    "-v", "/usr/lib/wsl:/usr/lib/wsl",
+    "-e", "LD_LIBRARY_PATH=/usr/lib/wsl/lib",
+    "-e", "GALLIUM_DRIVER=d3d12",
+    "-e", "MESA_D3D12_DEFAULT_ADAPTER_NAME=AMD",
+    "-e", "LIBGL_ALWAYS_SOFTWARE=0"
+  ],
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,readonly"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "canonical.robot-developer",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "postCreateCommand": "cd /workspace/ros2_ws && colcon build --symlink-install && mkdir -p /workspace/run",
+  "remoteUser": "root"
+}
